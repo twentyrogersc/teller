@@ -140,6 +140,8 @@ var parseForm = function(cb) {
     }
   
     var form = new formidable.IncomingForm()
+    form.keepExtensions = true
+    
     try { form.parse(req, parsed) }
     catch(e) { parsed() }
   }
