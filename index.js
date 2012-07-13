@@ -107,8 +107,8 @@ var addRoute = function(method, route, cb) {
   })._paramsIds
 }
 
-app.listen = function(port) {
-  http.createServer(server).listen(port)
+app.listen = function(port, address) {
+  http.createServer(server).listen(port, address)
   return app
 }
 
