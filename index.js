@@ -88,7 +88,7 @@ var server = function(req, res) {
   res.redirect = redirect
   res.send = send
   res.show404 = show404
-  req.url = req.url.replace(/\/$/, "")
+  if (req.url !== '/') req.url = req.url.replace(/\/$/, "")
   req.url = url.parse(req.url)
   var route = req.method+' '+req.url.pathname
   crossroads.parse(route, [req, res])
