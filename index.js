@@ -12,6 +12,7 @@ var url = require('url')
 
 var app = {}
 var cache = {}
+var notFound = false
 
 
 app.settings = function(opts) {
@@ -34,6 +35,7 @@ add.static = function(opts) {
 }
 
 add.template = function(opts) {
+  notFound = opts['404']
   var files = wrench.readdirSyncRecursive(opts.dir)
   files.forEach(function(file) {
     var p = path.join(opts.dir, file)
@@ -42,7 +44,7 @@ add.template = function(opts) {
       var content = fs.readFileSync(p)
       cache[file] = content.toString()
     }
-  })    
+  })
 }
 
 
@@ -55,8 +57,9 @@ var render = function(template, data, code) {
   this.send(html, code)
 }
 
-var show404 = function() {
-  this.send('<h1>404, not found</h1>', 404)
+var show404 = function(data) {
+  if (notFound) this.render(notFound, data, 404)
+  else this.send('<h1>404, not found</h1>', 404)
 }
 
 crossroads.bypassed.add(function(req, res) {

@@ -57,7 +57,7 @@ Settings for template rendering and static file serving.
 
 ```javascript
 app.settings({
-  template: { dir: __dirname+'/templates' },
+  template: { dir: __dirname+'/templates', 404: '404.ejs' },
   static: { route: '/public', dir: __dirname+'/public' }
 })
 ```
@@ -151,10 +151,10 @@ app.get(route, function(req, res) {
 
 ### res.show404()
 
-Sends the default 404 page.
+If ```settings.template['404']``` is supplied, renders a custom 404 page, otherwise sends the default 404 page.
 
 ```javascript
 app.get(route, function(req, res) {
-  res.show404()
+  res.show404(data)
 })
 ```

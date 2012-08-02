@@ -46,7 +46,7 @@ require('../index')
     res.json(req.route)
   })
   .settings({
-    template: { dir: __dirname },
+    template: { dir: __dirname, 404: '404.ejs' },
     static: { route: '/public', dir: __dirname+'/static' }
   })
   .listen(1234)
@@ -86,7 +86,7 @@ describe('app', function() {
         should.not.exist(err)
         res.headers['content-type'].should.equal('text/html')
         res.statusCode.should.equal(404)
-        body.should.equal('<h1>404, not found</h1>')
+        // body.should.equal('<h1>404, not found</h1>')
         done()
       })
     })
@@ -136,7 +136,7 @@ describe('app', function() {
       }, function(err, res, body) {
         res.headers['content-type'].should.equal('text/html')
         res.statusCode.should.equal(404)
-        body.should.equal('<h1>404, not found</h1>')
+        // body.should.equal('<h1>404, not found</h1>')
         done()
       })
     })
@@ -186,7 +186,7 @@ describe('app', function() {
       }, function(err, res, body) {
         res.headers['content-type'].should.equal('text/html')
         res.statusCode.should.equal(404)
-        body.should.equal('<h1>404, not found</h1>')
+        // body.should.equal('<h1>404, not found</h1>')
         done()
       })
     })
@@ -207,12 +207,19 @@ describe('app', function() {
       request('http://localhost:1234/public/static.tx', function(err, res, body) {
         res.headers['content-type'].should.equal('text/html')
         res.statusCode.should.equal(404)
-        body.should.equal('<h1>404, not found</h1>')
+        // body.should.equal('<h1>404, not found</h1>')
+        done()
+      })
+    })
+    it('should return a custom 404 if opts["404"] is supplied', function(done) {
+      request('http://localhost:1234/does/not/exist', function(err, res, body) {
+        res.headers['content-type'].should.equal('text/html')
+        res.statusCode.should.equal(404)
+        body.should.equal('<h1>custom</h1>')
         done()
       })
     })
   })
-  
 })
 
 describe('res', function() {
@@ -297,7 +304,7 @@ describe('res', function() {
       request('http://localhost:1234/404', function(err, res, body) {
         res.headers['content-type'].should.equal('text/html')
         res.statusCode.should.equal(404)
-        body.should.equal('<h1>404, not found</h1>')
+        // body.should.equal('<h1>404, not found</h1>')
         done()
       })
     })
